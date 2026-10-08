@@ -1,0 +1,16 @@
+{
+  "name": "idle-hero",
+  "version": "1.0.0",
+  "private": true,
+  "description": "무럭무럭 용사님 (Idle Hero)",
+  "scripts": {
+    "copyweb": "node -e \"const fs=require('fs'),cp=(s,d)=>fs.cpSync(s,d,{recursive:true});fs.rmSync('www',{recursive:true,force:true});fs.mkdirSync('www/assets',{recursive:true});fs.copyFileSync('../idle-hero/index.html','www/index.html');fs.copyFileSync('../idle-hero/anim-extract.js','www/anim-extract.js');cp('../idle-hero/assets/char','www/assets/char');cp('../idle-hero/assets/mon','www/assets/mon');cp('../idle-hero/assets/Unity_IdleRPG_Complete_Assets/Heroes','www/assets/Unity_IdleRPG_Complete_Assets/Heroes')\"",
+    "sync": "npm run copyweb && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^6.2.0",
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/core": "^6.2.1"
+  }
+}
