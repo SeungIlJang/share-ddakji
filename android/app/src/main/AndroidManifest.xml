@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
 
-        <!-- AdMob App ID (테스트 — 출시 시 실제 앱ID로 교체) -->
+        <!-- AdMob App ID (?�스????출시 ???�제 ?�ID�?교체) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"
+            android:value="ca-app-pub-9017259597860535~8162959768"
         />
 
         <provider
