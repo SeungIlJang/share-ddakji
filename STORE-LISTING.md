@@ -1,9 +1,16 @@
 # 모두의 딱지치기 — Play 스토어 등록 문구
 
 - 패키지명: `com.moduseries.ddakji` · 퍼블리셔: 모두의시리즈 · 카테고리: 게임 > 캐주얼(아케이드)
-- AAB: `releases/ddakji-v1c1.aab` (versionCode 1 / versionName 1.0.0, targetSdk 36, 서명 verified)
 - 아이콘 512: `releases/icon-512.png`
-- OTA: 앱은 `seungiljang.github.io/games/ddakji.html`를 불러옴 → 출시 후 게임 수정은 games 레포 푸시로 자동 반영
+- OTA: 앱은 `seungiljang.github.io/games/ddakji.html`를 불러옴 → 게임(HTML·에셋) 수정은 games 레포 푸시로 자동 반영. **네이티브 설정 변경은 재빌드 필요**
+- 빌드 설정(현재): `android/app/build.gradle` versionCode **4** / versionName **1.0.2**, minSdk 24 · targetSdk 36
+- 마지막으로 만든 AAB: `releases/ddakji-v3c3.aab` (versionCode 3). **versionCode 4 는 아직 빌드 전**
+- ⚠️ Play 에 실제로 올라간 버전이 무엇인지는 레포만으로 확인되지 않음 — Play Console 확인 필요
+
+### 재빌드가 필요한 미반영 네이티브 변경
+- `android:screenOrientation="portrait"` 추가 (ab9ff80) — 세로 전용 설계인데 잠금이 없어 가로 회전 시 레이아웃이 깨졌음
+- 매니페스트 UTF-8 손상 복구 (ab9ff80)
+- 업로드 전 versionCode 를 Play 의 현재 값보다 크게 올릴 것
 
 ---
 
@@ -74,10 +81,15 @@ Play offline, anytime. Tap and flip now!
 
 ## 콘텐츠 등급 / 데이터
 - 폭력·선정성 없음 → 전체이용가 예상
-- 데이터 수집 없음 (로컬 저장만, 오프라인) → 개인정보처리방침에 명시
-- ⚠️ 광고: 현재 AdMob 앱 ID는 **구글 테스트 ID 플레이스홀더**. 실제 광고 수익화하려면 AdMob에 "모두의 딱지치기" 앱 생성 → App ID를 매니페스트에 교체 후 재빌드 필요(데이터수집 "광고" 항목도 체크).
+- 데이터 수집 없음은 **아님** — 글로벌 랭킹(Firebase Firestore `ddakji_scores`)에 닉네임·점수·스테이지를 저장하고, AdMob 광고 ID를 쓴다. 데이터 안전 섹션에 "앱 활동"·"광고" 체크 필요
+- 광고: AdMob 앱 ID `ca-app-pub-9017259597860535~8162959768` **실유닛 적용 완료**(d3ee19e). 배너·전면·리워드 3종 실유닛 연결됨
+- ⚠️ 테스트 시 실광고를 직접 누르지 말 것 — 2026-11-02 계정 29일 정지 이력. 테스트는 테스트 트랙 빌드(UA 에 `MSAdsTest`)로만. `AD_USE_TEST` 가 UA 를 보고 자동 전환됨
 
-## 아직 필요한 자료 (출시 전)
-- 피처 그래픽 1024×500 (생성 가능)
-- 스크린샷 2장 이상 (폰, 생성 가능)
+## 스토어 자산 (보유 현황)
+- ✅ 피처 그래픽 `store-assets/feature-1024x500.png` (1024×500)
+- ✅ 스크린샷 6장 `store-assets/shot1~6-*.png` (1080×1920)
+- ✅ 아이콘 `releases/icon-512.png` (512×512)
+- ⚠️ 단, 아이콘·피처·스크린샷 모두 **v1.3 이전의 옛 딱지 그림**(둥근 사각형+십자)으로 만들어졌다.
+  게임 아트가 바람개비 접힘으로 바뀌었으므로 **교체 권장** — 교체용 프롬프트는
+  `images/ddakji-p0-prompts.md` §5 에 있다
 - 개인정보처리방침 URL (기존 privacy-site 재사용 가능)
