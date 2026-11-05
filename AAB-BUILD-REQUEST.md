@@ -5,6 +5,8 @@
 
 ---
 
+> 2026-11-05 갱신: §2(1)의 `npm run sync` 지뢰는 제거됐습니다. 이제 안전합니다.
+
 ## 0. 한 줄 요약
 
 `android:screenOrientation="portrait"` 한 줄이 **네이티브 변경이라 OTA로 안 넘어갑니다.**
@@ -39,28 +41,32 @@
 
 ---
 
-## 2. 🚨 먼저 읽을 것 — 지뢰 두 개
+## 2. 🚨 먼저 읽을 것
 
-### (1) `npm run sync` / `npm run copyweb` 을 절대 실행하지 마세요
+### (1) `npm run sync` 는 이제 안전합니다 (2026-11-05 고침)
 
-`package.json`이 **idle-hero에서 복사해 온 채로 남아 있습니다.** 이름도 `"idle-hero"`,
-설명도 "무럭무럭 용사님"이고, `copyweb` 스크립트는 이렇게 생겼습니다:
+`package.json`이 idle-hero에서 복사해 온 채로 남아 있었습니다. `copyweb` 스크립트가
+`www/`를 통째로 지우고 `../idle-hero/` 파일을 넣는 내용이라, 모르고 돌리면 딱지치기
+웹 번들(v2.8 폴백 + 에셋 17장)이 사라졌습니다. **지금은 고쳐 뒀습니다** —
+`scripts/sync-web.mjs`가 `../games`의 원본만 바라봅니다:
 
+- `games/ddakji.html` → `www/game.html` (바이트 그대로, 복사 후 일치 검증)
+- `games/assets/ddakji/` → `www/assets/ddakji/` (17장)
+- `www/index.html`(OTA 래퍼, 이 레포가 원본)은 건드리지 않음
+- `../games`가 없으면 아무것도 지우지 않고 **exit 1**로 멈춤
+
+그래서 아래 둘 다 써도 됩니다:
+
+```bash
+npm run sync
 ```
-fs.rmSync('www',{recursive:true,force:true})   ← 딱지치기 www/ 를 통째로 지우고
-...copyFileSync('../idle-hero/index.html', 'www/index.html')   ← 남의 게임을 넣음
-```
-
-실행하면 **딱지치기 웹 번들(v2.8 폴백 + 에셋 17장)이 사라지고 다른 게임이 들어갑니다.**
-`npm run sync`는 `copyweb`을 먼저 부르므로 똑같이 위험합니다.
-
-쓸 명령은 이것뿐입니다 — `www/`를 **있는 그대로** 안드로이드로 복사합니다:
 
 ```bash
 npx cap sync android
 ```
 
-(이 스크립트를 고치는 건 제 쪽 일입니다. 건드리지 말고 넘어가 주세요.)
+`npm run sync`는 위 복사를 먼저 하고 `cap sync`를 부릅니다. `games` 레포를 최근에
+건드리지 않았다면 결과는 같습니다(멱등 — 이미 동일하면 파일이 바뀌지 않습니다).
 
 ### (2) 광고는 꺼진 상태가 정상입니다 — 되살리지 마세요
 
@@ -127,13 +133,15 @@ npm install
 ```
 
 ```bash
-npx cap sync android
+npm run sync
 ```
 
 ```bash
 cd android && ./gradlew bundleRelease
 ```
 
+- `npm run sync` = `games` 원본 복사(`scripts/sync-web.mjs`) + `npx cap sync android`.
+  `games` 레포를 안 건드렸다면 `npx cap sync android`만 해도 결과는 같습니다.
 - `node_modules/`가 없습니다. `capacitor.settings.gradle`이
   `../node_modules/@capacitor-community/admob/android`를 참조하므로 `npm install`이 선행돼야 합니다.
 - `android/app/src/main/assets/public/`도 아직 없습니다 — `cap sync`가 `www/`를 여기로 복사합니다.
@@ -165,7 +173,7 @@ cd android && ./gradlew bundleRelease
 
 - `www/game.html`, `games/ddakji.html` — 두 벌이 **바이트 동일**해야 합니다. 현재 동일(v2.8).
 - `ADS_ENABLED=false`
-- `package.json`의 `copyweb`/`sync` 스크립트 (고치는 건 제 쪽에서 합니다)
+- `package.json`의 `copyweb`/`sync`, `scripts/sync-web.mjs` — 방금 고쳐 뒀습니다. 그대로 쓰세요.
 - `capacitor.config.json`에 `appendUserAgent` 추가 (프로덕션 빌드 한정 금지)
 - 다른 게임 디렉터리 — 워크스페이스에 20개 가까운 게임이 있고, 다른 세션이 동시에
   작업 중일 수 있습니다. **커밋은 `share-ddakji/` 안에서, 변경한 파일만 경로 지정해서** 하세요.

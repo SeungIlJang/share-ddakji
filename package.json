@@ -1,10 +1,10 @@
 {
-  "name": "idle-hero",
+  "name": "share-ddakji",
   "version": "1.0.0",
   "private": true,
-  "description": "무럭무럭 용사님 (Idle Hero)",
+  "description": "모두의 딱지치기 (Ddakji Flip) — Capacitor OTA 래퍼",
   "scripts": {
-    "copyweb": "node -e \"const fs=require('fs'),cp=(s,d)=>fs.cpSync(s,d,{recursive:true});fs.rmSync('www',{recursive:true,force:true});fs.mkdirSync('www/assets',{recursive:true});fs.copyFileSync('../idle-hero/index.html','www/index.html');fs.copyFileSync('../idle-hero/anim-extract.js','www/anim-extract.js');cp('../idle-hero/assets/char','www/assets/char');cp('../idle-hero/assets/mon','www/assets/mon');cp('../idle-hero/assets/Unity_IdleRPG_Complete_Assets/Heroes','www/assets/Unity_IdleRPG_Complete_Assets/Heroes')\"",
+    "copyweb": "node scripts/sync-web.mjs",
     "sync": "npm run copyweb && npx cap sync android"
   },
   "dependencies": {
