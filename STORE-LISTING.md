@@ -86,10 +86,14 @@ Play offline, anytime. Tap and flip now!
 - ⚠️ 테스트 시 실광고를 직접 누르지 말 것 — 2026-11-02 계정 29일 정지 이력. 테스트는 테스트 트랙 빌드(UA 에 `MSAdsTest`)로만. `AD_USE_TEST` 가 UA 를 보고 자동 전환됨
 
 ## 스토어 자산 (보유 현황)
-- ✅ 피처 그래픽 `store-assets/feature-1024x500.png` (1024×500)
-- ✅ 스크린샷 6장 `store-assets/shot1~6-*.png` (1080×1920)
-- ✅ 아이콘 `releases/icon-512.png` (512×512)
-- ⚠️ 단, 아이콘·피처·스크린샷 모두 **v1.3 이전의 옛 딱지 그림**(둥근 사각형+십자)으로 만들어졌다.
-  게임 아트가 바람개비 접힘으로 바뀌었으므로 **교체 권장** — 교체용 프롬프트는
-  `images/ddakji-p0-prompts.md` §5 에 있다
+- ✅ 아이콘 `releases/icon-512.png` (512×512) — **바람개비 신아트로 교체됨**
+- ✅ 피처 그래픽 `store-assets/feature-1024x500.png` (1024×500) — **바람개비 신아트로 교체됨**
+- ✅ 스크린샷 — **업로드는 아래 3장을 쓸 것** (v2.8 게임을 직접 촬영, 1080×1920)
+  | 파일 | 장면 |
+  |---|---|
+  | `store-assets/shot1-play.jpg` | 조준·고스트 목표가 보이는 플레이 화면 |
+  | `store-assets/shot2-win.jpg` | 뒤집기 성공 연출 |
+  | `store-assets/shot3-dex.jpg` | 딱지 도감 |
+- 📦 `store-assets/shot1~6-*.png` (1080×1920)은 **v1.3 이전 옛 아트**라 업로드하지 않지만,
+  비교용으로 보관한다
 - 개인정보처리방침 URL (기존 privacy-site 재사용 가능)
