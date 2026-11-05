@@ -82,6 +82,43 @@ Play offline, anytime. Tap and flip now!
 ## 콘텐츠 등급 / 데이터
 - 폭력·선정성 없음 → 전체이용가 예상
 - 데이터 수집 없음은 **아님** — 글로벌 랭킹(Firebase Firestore `ddakji_scores`)에 닉네임·점수·스테이지를 저장하고, AdMob 광고 ID를 쓴다. 데이터 안전 섹션에 "앱 활동"·"광고" 체크 필요
+
+## 🚨 글로벌 랭킹이 운영에서 동작하지 않음 (2026-11-05 확인)
+
+배포본에서 랭킹 **읽기·쓰기 모두 403** 이다. 콘솔에 `LB.submit FirebaseError:
+Missing or insufficient permissions.` 가 찍히고, 랭킹 창은 "불러오기 실패"만 뜬다.
+
+Firestore REST 로 범위를 좁혔다 — 같은 프로젝트(`gallog-return-be90f`)의
+다른 게임 컬렉션은 열려 있는데 우리 것만 막혔다:
+
+| 컬렉션 | 응답 |
+|---|---|
+| `scores` (타 게임) | 200 |
+| `ddakji_scores` | 403 PERMISSION_DENIED |
+
+즉 프로젝트 전체가 잠긴 게 아니라 **보안 규칙에 `ddakji_scores` 가 없다.**
+규칙은 레포에 없고 Firebase 콘솔에서만 관리되므로 **코드로는 고칠 수 없다.**
+
+고치는 법 — Firebase 콘솔 > Firestore Database > 규칙 에 아래를 추가:
+
+```
+match /ddakji_scores/{uid} {
+  allow read: if true;
+  allow write: if request.resource.data.keys().hasOnly(['uid','name','score','stage','ts'])
+               && request.resource.data.uid is string
+               && request.resource.data.name is string
+               && request.resource.data.name.size() <= 16
+               && request.resource.data.score is int
+               && request.resource.data.score >= 0
+               && request.resource.data.stage is int;
+}
+```
+
+⚠️ 같은 프로젝트를 다른 게임들이 함께 쓴다. 기존 `match` 블록은 건드리지 말고
+위 블록만 **추가**할 것.
+
+고치기 전까지 랭킹은 실패해도 게임 진행에는 영향이 없다(`submit` 이 false 를
+돌려주고 조용히 넘어간다). 스토어 설명에 랭킹을 내세우지는 않고 있다.
 - 광고: AdMob 앱 ID `ca-app-pub-9017259597860535~8162959768` **실유닛 적용 완료**(d3ee19e). 배너·전면·리워드 3종 실유닛 연결됨
 - ⚠️ 테스트 시 실광고를 직접 누르지 말 것 — 2026-11-02 계정 29일 정지 이력. 테스트는 테스트 트랙 빌드(UA 에 `MSAdsTest`)로만. `AD_USE_TEST` 가 UA 를 보고 자동 전환됨
 
