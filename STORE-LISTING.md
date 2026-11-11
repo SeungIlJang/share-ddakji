@@ -3,14 +3,20 @@
 - 패키지명: `com.moduseries.ddakji` · 퍼블리셔: 모두의시리즈 · 카테고리: 게임 > 캐주얼(아케이드)
 - 아이콘 512: `releases/icon-512.png`
 - OTA: 앱은 `seungiljang.github.io/games/ddakji.html`를 불러옴 → 게임(HTML·에셋) 수정은 games 레포 푸시로 자동 반영. **네이티브 설정 변경은 재빌드 필요**
-- 빌드 설정(현재): `android/app/build.gradle` versionCode **4** / versionName **1.0.2**, minSdk 24 · targetSdk 36
-- 마지막으로 만든 AAB: `releases/ddakji-v3c3.aab` (versionCode 3). **versionCode 4 는 아직 빌드 전**
+- 빌드 설정(현재): `android/app/build.gradle` versionCode **5** / versionName **1.1.0**, minSdk 24 · targetSdk 36
+- 릴리스 노트: `releases/RELEASE-NOTES-v5.txt` (세로 고정 반영, f967657)
+- ⚠️ **AAB 파일 자체는 이 체크아웃에 없다** — `.gitignore` 가 `*.aab` 를 제외한다. 빌드한 쪽에 있다
 - ⚠️ Play 에 실제로 올라간 버전이 무엇인지는 레포만으로 확인되지 않음 — Play Console 확인 필요
 
-### 재빌드가 필요한 미반영 네이티브 변경
-- `android:screenOrientation="portrait"` 추가 (ab9ff80) — 세로 전용 설계인데 잠금이 없어 가로 회전 시 레이아웃이 깨졌음
-- 매니페스트 UTF-8 손상 복구 (ab9ff80)
-- 업로드 전 versionCode 를 Play 의 현재 값보다 크게 올릴 것
+### 네이티브 변경 반영 상태
+- `android:screenOrientation="portrait"` (ab9ff80) → **versionCode 5 빌드에 반영됨**
+- 매니페스트 UTF-8 손상 복구 (ab9ff80) → 같이 반영됨
+- ⚠️ versionCode 5 AAB 에 들어간 **오프라인 폴백은 v2.8** 이다(빌드가 v3.0 커밋보다 먼저였음).
+  온라인에서는 OTA 로 v3.0 이 뜨므로 비행기 모드일 때만 구버전이 보인다. 다음 빌드에서 자동 해소
+
+### ⚠️ 이 문서를 고쳐도 Play 는 안 바뀐다
+아래 등록 문구는 **Play Console 에 직접 붙여 넣어야** 반영된다.
+스토어 등록정보 > 기본 스토어 등록정보 에서 간단한 설명·자세한 설명·스크린샷을 교체할 것.
 
 ---
 
@@ -20,31 +26,46 @@
 모두의 딱지치기
 
 ### 간단한 설명 (최대 80자)
-탁! 내리쳐 딱지를 뒤집자! 넘어갈 듯 말 듯… 한 번만 더 하게 되는 원터치 딱지치기.
+아슬아슬하게 넘길수록 점수 7배! 올렸다 그대로 내리꽂는 한 동작 딱지치기.
 
 ### 자세한 설명 (최대 4000자)
 ◆ 모두의 딱지치기 ◆
-어릴 적 그 손맛 그대로! 힘 조절 한 번으로 상대 딱지를 내리쳐 뒤집는 전통놀이 게임.
+누른 채 들어올렸다가, 손 떼지 말고 그대로 내리꽂는다. 어릴 적 그 한 방.
 
-파워 바가 초록 구간에 왔을 때 화면을 탭하세요. 딱지가 90도를 넘기면 뒤집혀서 내 것이 돼요. 넘어갈 듯 말 듯 들썩이는 그 순간 — "아, 조금만 더!" 하며 자꾸만 다시 치게 됩니다.
+■ 한 동작이면 됩니다
+· 화면을 누른 채 위로 올려요
+· 손을 떼지 말고 그대로 바닥까지 내리꽂아요
+· 끝입니다. 탭 타이밍도, 복잡한 조작도 없어요
 
-■ 이렇게 즐겨요
-· 원터치 — 초록 구간에서 탭, 그게 전부예요
-· 넘어갈 듯 말 듯 짜릿한 뒤집기 물리
-· 스테이지가 오를수록 더 무겁고 아슬아슬하게
-· 노랑 구간 명중 = 완벽타! 점수·엽전 2배
+■ 어디까지 올릴지가 전부입니다
+화면에 선이 두 개 보입니다.
+· 초록선 — 이 위면 안전하게 넘어가요. 대신 점수는 그대로
+· 금선 — 넘어가느냐 마느냐의 경계. 여기 아슬아슬하게 붙일수록 최대 7배
 
-■ 모으는 재미
-· 일반·레어·전설 딱지 12종 도감 수집
-· 레어·전설 딱지는 화려하게 등장 (점수 2~3배)
+위로 도망가면 확실하지만 점수가 안 늘고, 욕심내면 한 뼘 차이로 떨어집니다.
+매 판 "이번엔 어디까지 붙일까"를 고르는 게임이에요.
+
+■ 망설이면 빗나갑니다
+내리치는 속도가 그대로 정확도가 됩니다. 머뭇거리며 끌어내리면 딱지가 비뚤게 꽂혀 바람이 새요. 같은 높이에서 쳐도, 과감하게 꽂은 사람이 넘깁니다.
+
+■ 연속으로 쌓으세요
+연속 성공마다 점수 배수가 올라 최대 5배. 금선 배수와 곱해집니다.
+한 번 실패하면 연속은 처음부터 — 그래서 쌓일수록 손이 떨려요.
+
+■ 목숨 3개, 한 판의 끝
+실패 3번이면 그 판이 끝납니다. 기록이 아깝다면 광고를 보고 한 번 이어할 수 있어요.
+
+■ 모으고 키우는 재미
+· 일반·레어·전설 딱지 12종 도감 수집 (레어 2배 · 전설 3배 점수)
 · 엽전을 모아 힘·정확도·집중력 영구 강화
+· 상대와 번갈아 치는 대결 모드
 
 ■ 이런 분께
-· 짧고 굵게 즐기는 게임을 찾는 분
-· "한 번만 더"의 중독을 좋아하는 분
+· 한 판 1~2분, 짧고 굵게 즐기고 싶은 분
+· "조금만 더!"가 멈추지 않는 분
 · 추억의 전통놀이를 손안에서 즐기고 싶은 분
 
-지금 바로 딱! 쳐보세요!
+지금 바로 올렸다, 꽂아보세요!
 
 * 인터넷 연결 없이도 즐길 수 있어요.
 
@@ -56,26 +77,39 @@
 Ddakji Flip
 
 ### Short description (max 80)
-Slam & flip the paper tile! So close every time — one-touch, one-more-try ddakji!
+Lift and slam to flip! Hug the gold line for up to 7x score — or fall short.
 
 ### Full description (max 4000)
 ◆ DDAKJI FLIP ◆
-The classic Korean paper-flipping game (as seen in Squid Game) in one tap!
+Press, lift, and slam it down without lifting your finger. The classic Korean paper-flipping game (as seen in Squid Game).
 
-Tap when the power bar hits the green zone to slam your tile. If the opponent's ddakji tips past 90°, it flips over and becomes yours. That teetering "will-it-flip?" moment keeps you saying "just one more try!"
+■ One motion, that's it
+· Press the screen and drag upward
+· Keep holding and slam straight back down to the ground
+· Done. No tap timing, nothing complicated
 
-■ How to play
-· One-touch — tap in the green zone, that's it
-· Satisfying tipping-point flip physics
-· Heavier, tenser tiles as stages rise
-· Hit the yellow zone for a PERFECT — double score & coins
+■ How high you lift is the whole game
+Two lines appear on screen.
+· GREEN LINE — above this, your tile flips for sure. But no score bonus
+· GOLD LINE — the edge between flipping and failing. The closer you hug it, the bigger the multiplier, up to 7x
 
-■ Collect them all
-· 12 ddakji to collect: common, rare, legendary
-· Rare & legendary tiles appear in style (2–3× score)
-· Earn coins to permanently upgrade power, accuracy, focus
+Play it safe and you'll never miss, but your score won't grow. Get greedy and you fall short by a finger's width. Every round you choose how close to cut it.
 
-Play offline, anytime. Tap and flip now!
+■ Hesitate and you'll miss
+Your downward speed becomes your accuracy. Drag it down slowly and the tile lands crooked, letting the air escape. From the very same height, the player who commits is the one who flips it.
+
+■ Build your streak
+Every win in a row raises your multiplier, up to 5x — and it stacks on top of the gold-line bonus. One miss and the streak starts over, so the higher it climbs, the more your hands shake.
+
+■ Three lives per run
+Miss three times and the run ends. If the score was worth it, watch an ad to continue once.
+
+■ Collect and upgrade
+· 12 ddakji to collect: common, rare, legendary (2x / 3x score)
+· Earn coins to permanently upgrade power, accuracy and focus
+· Duel mode — trade slams with an opponent
+
+Play offline, anytime. Lift it, slam it, flip it!
 
 ---
 
